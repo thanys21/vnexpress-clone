@@ -11,16 +11,18 @@ export const GET = async (request: NextRequest) => {
         const limit = parseInt(searchParams.get('limit') || '10', 10);
 
         const offset = (page - 1) * limit;
-
-        const [users, total] = await Promise.all([
-            User.find({}).skip(offset).limit(limit).lean<IUser[]>(),
-            User.countDocuments({})
+        const search = searchParams.get('search') || '';
+        const [users, total, totalAll] = await Promise.all([
+            User.find({ name: new RegExp(search, 'i') }).skip(offset).limit(limit).lean<IUser[]>(),
+            User.countDocuments({ name: new RegExp(search, 'i') }),
+            User.countDocuments(),
         ]);
 
         return NextResponse.json({
             success: true,
             data: users,
             total,
+            totalAll,
         });
     } catch (error) {
         console.error('Error fetching users:', error);
@@ -30,4 +32,3 @@ export const GET = async (request: NextRequest) => {
         );
     }
 }
-
