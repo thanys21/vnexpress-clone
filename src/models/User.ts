@@ -1,13 +1,15 @@
-import mongoose, { Schema, Model } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
-export interface IUser {
+export interface IUser extends Document {
     _id: mongoose.Types.ObjectId;
+    user_id: number;
     name: string;
     account: string;
     password?: string;
 }
 
 const UserSchema = new Schema<IUser>({
+    user_id: { type: Number, required: false, unique: true },
     name: { type: String, required: true },
     account: { type: String, required: true, unique: true },
     password: { type: String, required: false, select: false },
@@ -17,6 +19,6 @@ const UserSchema = new Schema<IUser>({
     strict: false,
 });
 
-const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
+const User = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
 
 export default User;
