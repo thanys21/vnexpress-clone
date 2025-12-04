@@ -20,7 +20,10 @@ const RootLayout = ({
       <body className="antialiased">
         <Header />
         <MenuBar />
-        <Suspense fallback={<Loading />}>{children}</Suspense>
+        
+        <div className="max-w-[1130px] mx-auto px-4">
+          <Suspense fallback={<Loading />}>{children}</Suspense>
+        </div>
       </body>
     </html>
   );
