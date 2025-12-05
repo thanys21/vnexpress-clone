@@ -1,8 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import User, { IUser } from '@/models/User';
 
-export const GET = async ({ params }: { params: { id: string } }) => {
+export const GET = async (
+    request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) => {
     try {
         await dbConnect();
 

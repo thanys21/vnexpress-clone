@@ -1,12 +1,15 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import New, { INew } from '@/models/New';
 
-export const GET = async ({ params }: { params: { id: string } }) => {
+export const GET = async (
+    request: NextRequest,
+    { params }: { params: Promise<{ id: string }> }
+) => {
     try {
         await dbConnect();
 
-        const { id } = params;
+        const { id } = await params;
         const theNew = await New.findOne({ new_id: Number(id) }).lean<INew>();
 
         return NextResponse.json({
