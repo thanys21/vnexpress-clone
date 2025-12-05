@@ -1,22 +1,22 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
-import User, { IUser } from '@/models/User';
+import New, { INew } from '@/models/New';
 
 export const GET = async ({ params }: { params: { id: string } }) => {
     try {
         await dbConnect();
 
-        const { id } = await params;
-        const user = await User.findOne({ user_id: Number(id) }).lean<IUser>();
+        const { id } = params;
+        const theNew = await New.findOne({ new_id: Number(id) }).lean<INew>();
 
         return NextResponse.json({
             success: true,
-            data: user
+            data: theNew
         });
     } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching new:', error);
         return NextResponse.json(
-            { success: false, error: 'Failed to fetch users' },
+            { success: false, error: 'Failed to fetch new' },
             { status: 500 }
         );
     }
