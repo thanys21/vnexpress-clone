@@ -1,5 +1,4 @@
 import { ReadonlyURLSearchParams } from "next/navigation";
-import { headers } from "next/headers";
 
 export const createQueryString = ({
   name,
@@ -16,24 +15,27 @@ export const createQueryString = ({
   return params.toString();
 };
 
-export const getBaseUrl = async () => {
-  const headersList = await headers();
-  const host = headersList.get("host") || "localhost:3000";
-  const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-  return `${protocol}://${host}`;
-};
+export const formatRelativeTime = (date: Date): string => {
+  const now = new Date();
+  const diffMs = now.getTime() - new Date(date).getTime();
+  const diffSeconds = Math.floor(diffMs / 1000);
+  const diffMinutes = Math.floor(diffSeconds / 60);
+  const diffHours = Math.floor(diffMinutes / 60);
+  const diffDays = Math.floor(diffHours / 24);
 
-export const fetchApi = async (endpoint: string, options?: RequestInit) => {
-  const baseUrl = await getBaseUrl();
-  const url = `${baseUrl}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
-  
-  const response = await fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-    ...options,
-  });
-  
-  return response.json();
+  if (diffSeconds < 60) {
+    return "vừa xong";
+  } else if (diffMinutes < 60) {
+    return `${diffMinutes} phút trước`;
+  } else if (diffHours < 24) {
+    return `${diffHours} giờ trước`;
+  } else if (diffDays < 30) {
+    return `${diffDays} ngày trước`;
+  } else {
+    // Format as DD/MM/YYYY for older dates
+    const day = new Date(date).getDate().toString().padStart(2, "0");
+    const month = (new Date(date).getMonth() + 1).toString().padStart(2, "0");
+    const year = new Date(date).getFullYear();
+    return `${day}/${month}/${year}`;
+  }
 };
