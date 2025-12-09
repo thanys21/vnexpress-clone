@@ -13,7 +13,6 @@ const NewsDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
       try {
         const response = await fetch(`/api/vnexpress/news/${id}`);
         const data = await response.json();
-        console.log("data", data);
         setNews(data.data);
       } catch (error) {
         console.error("Error fetching news:", error);
@@ -23,7 +22,6 @@ const NewsDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
     fetchNews();
   }, [id]);
 
-  console.log("news", news);
   return (
     <div>
       <h1>New Detail</h1>

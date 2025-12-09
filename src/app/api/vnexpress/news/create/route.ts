@@ -7,7 +7,7 @@ export const POST = async (request: NextRequest) => {
         await dbConnect();
 
         const body = await request.json();
-        const { title, sub_title, content, thumbnail, category, tags, author, publish_date, } = body;
+        const { title, sub_title, content, thumbnail, category, author, publish_date, } = body;
 
         if (!title || !category || !content || !publish_date) {
             return NextResponse.json(
@@ -26,7 +26,6 @@ export const POST = async (request: NextRequest) => {
             content,
             thumbnail,
             category,
-            tags,
             author,
             publish_date,
         });
