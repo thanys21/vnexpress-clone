@@ -7,7 +7,6 @@ export interface INew extends Document {
     content: string;
     thumbnail?: string;
     category: string;
-    tags?: string[];
     author?: string;
     publish_date: Date;
     views: number;
@@ -20,7 +19,6 @@ const NewSchema = new Schema<INew>({
     content: { type: String, required: true },
     thumbnail: { type: String },
     category: { type: String, required: true },
-    tags: [{ type: String }],
     author: { type: String },
     publish_date: { type: Date, default: Date.now },
     views: { type: Number, default: 0 },

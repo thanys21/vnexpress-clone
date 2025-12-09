@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import MenuBar from "@/components/Header/menu";
+import Footer from "@/components/footer";
 import { Suspense } from "react";
 import Loading from "./loading";
 
@@ -24,6 +25,8 @@ const RootLayout = ({
         <div className="max-w-[1130px] mx-auto px-4">
           <Suspense fallback={<Loading />}>{children}</Suspense>
         </div>
+
+        <Footer />
       </body>
     </html>
   );
