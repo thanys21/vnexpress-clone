@@ -1,6 +1,7 @@
 import React from "react";
 import Input from "../../components/input";
 import { InputType } from "../../variables";
+import { useFormContext } from "../..";
 
 interface Props {
   name: string;
@@ -18,15 +19,30 @@ interface Props {
 const InputField = ({
   name,
   label,
-  error,
+  error: tempError,
   type,
   required,
   placeholder,
   disabled,
-  value,
-  onChange,
+  value: tempValue,
+  onChange: tempOnChange,
   onBlur,
 }: Props): React.ReactElement => {
+  const formContext = useFormContext();
+
+  const value =
+    tempValue !== undefined ? tempValue : formContext?.formData[name] || "";
+
+  const error = tempError || formContext?.errors[name];
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (tempOnChange) {
+      tempOnChange(e);
+    } else if (formContext) {
+      formContext.setFieldValue(name, e.target.value);
+    }
+  };
+
   return (
     <div className="mb-4">
       {label && (
@@ -42,7 +58,7 @@ const InputField = ({
         disabled={disabled}
         error={!!error}
         value={value}
-        onChange={onChange}
+        onChange={handleChange}
         onBlur={onBlur}
       />
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}

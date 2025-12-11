@@ -1,5 +1,6 @@
 import React from "react";
 import Select, { SelectOption } from "../../components/select";
+import { useFormContext } from "../..";
 
 interface Props {
   name: string;
@@ -18,14 +19,29 @@ const SelectField = ({
   name,
   label,
   options,
-  error,
+  error: tempError,
   required,
   placeholder,
   disabled,
-  value,
-  onChange,
+  value: tempValue,
+  onChange: tempOnChange,
   onBlur,
 }: Props): React.ReactElement => {
+  const formContext = useFormContext();
+
+  const value =
+    tempValue !== undefined ? tempValue : formContext?.formData[name] || "";
+
+  const error = tempError || formContext?.errors[name];
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (tempOnChange) {
+      tempOnChange(e);
+    } else if (formContext) {
+      formContext.setFieldValue(name, e.target.value);
+    }
+  };
+
   return (
     <div className="mb-4">
       {label && (
@@ -41,7 +57,7 @@ const SelectField = ({
         disabled={disabled}
         error={!!error}
         value={value}
-        onChange={onChange}
+        onChange={handleChange}
         onBlur={onBlur}
       />
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}

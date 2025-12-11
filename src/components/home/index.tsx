@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { INew } from "@/models/New";
@@ -11,6 +12,33 @@ import InputField from "../form/fields/input-field";
 import SelectField from "../form/fields/select-field";
 import Form from "../form";
 import Button from "../form/components/button";
+import { yup } from "../form/yupValidation";
+
+// Define validation schema (Yup-style)
+const validateSchema = yup.object({
+  username: yup
+    .string()
+    .required("Trường bắt buộc")
+    .min(3, "Ít nhất 3 ký tự")
+    .max(20, "Tối đa 20 ký tự")
+    .matches(/^[a-zA-Z0-9_]+$/, "Chỉ được chứa chữ, số và dấu gạch dưới"),
+  email: yup
+    .string()
+    .required("Trường bắt buộc")
+    .email("Email không đúng định dạng"),
+  password: yup
+    .string()
+    .required("Trường bắt buộc")
+    .min(6, "Ít nhất 6 ký tự")
+    .max(50, "Tối đa 50 ký tự"),
+  age: yup
+    .number()
+    .required("Trường bắt buộc")
+    .min(1, "Ít nhất 1")
+    .max(150, "Tối đa 150")
+    .integer("Phải là số nguyên"),
+  country: yup.string().required("Vui lòng chọn quốc gia"),
+});
 
 const HomePage = (): React.ReactElement => {
   const [news, setNews] = useState<INew[] | undefined>(undefined);
@@ -32,12 +60,14 @@ const HomePage = (): React.ReactElement => {
     fetchNews();
   }, []);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form submitted");
+  const handleFormSubmit = (values: any) => {
+    console.log("values:", values);
   };
 
-  console.log("img", img);
+  const handleValidationError = (errors: Record<string, string>) => {
+    console.log("errors:", errors);
+    alert("Vui lòng kiểm tra lại các trường bắt buộc");
+  };
 
   return (
     <div className="max-w-[1130px] p-6">
@@ -47,11 +77,23 @@ const HomePage = (): React.ReactElement => {
       <div className="mb-8 p-6 border rounded-lg bg-white shadow">
         <h2 className="text-2xl font-bold mb-4">Demo Form</h2>
 
-        <Form onSubmit={handleFormSubmit} className="mt-6">
+        <Form
+          initialValues={{
+            username: "",
+            email: "",
+            password: "",
+            age: "",
+            country: "",
+          }}
+          schema={validateSchema}
+          onSubmit={handleFormSubmit}
+          onValidationError={handleValidationError}
+        >
           <InputField
             name="username"
             label="Username"
             placeholder="Enter your username"
+            required
           />
 
           <InputField
@@ -59,6 +101,7 @@ const HomePage = (): React.ReactElement => {
             label="Email"
             type="email"
             placeholder="Enter your email"
+            required
           />
 
           <InputField
@@ -66,6 +109,7 @@ const HomePage = (): React.ReactElement => {
             label="Password"
             type="password"
             placeholder="Enter your password"
+            required
           />
 
           <InputField
@@ -73,6 +117,7 @@ const HomePage = (): React.ReactElement => {
             label="Age"
             type="number"
             placeholder="Enter your age"
+            required
           />
 
           <SelectField
@@ -85,6 +130,7 @@ const HomePage = (): React.ReactElement => {
               { label: "South Korea", value: "kr" },
             ]}
             placeholder="Select your country"
+            required
           />
 
           <div className="flex gap-4">
