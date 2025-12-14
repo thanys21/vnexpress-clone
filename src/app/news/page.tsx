@@ -1,5 +1,11 @@
+import Link from "next/link";
+
 const NewsPage = () => {
-  return <h1>Hello Next.js!</h1>;
+  return (
+    <div>
+      <Link href="/news/create">Create News</Link>
+    </div>
+  );
 };
 
 export default NewsPage;

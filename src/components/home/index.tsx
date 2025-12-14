@@ -72,7 +72,7 @@ const HomePage = (): React.ReactElement => {
   return (
     <div className="max-w-[1130px] p-6">
       {/* Testing */}
-      <ImageUploadField setImgUrl={setImg} />
+      <ImageUploadField name="thumbnail" setImgUrl={setImg} />
 
       <div className="mb-8 p-6 border rounded-lg bg-white shadow">
         <h2 className="text-2xl font-bold mb-4">Demo Form</h2>
