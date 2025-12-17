@@ -1,11 +1,7 @@
-import Link from "next/link";
+import NewLists from "@/components/news";
 
 const NewsPage = () => {
-  return (
-    <div>
-      <Link href="/news/create">Create News</Link>
-    </div>
-  );
+  return <NewLists />;
 };
 
 export default NewsPage;
