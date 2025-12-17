@@ -23,8 +23,10 @@ const NewSchema = new Schema<INew>({
     publish_date: { type: Date, default: Date.now },
     views: { type: Number, default: 0 },
 }, {
+    collection: 'news',
     timestamps: true,
-    collection: 'news'
+    strict: false,
+    versionKey: false,
 });
 
 
