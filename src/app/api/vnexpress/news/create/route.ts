@@ -7,9 +7,9 @@ export const POST = async (request: NextRequest) => {
         await dbConnect();
 
         const body = await request.json();
-        const { title, sub_title, content, thumbnail, category, author, publish_date, } = body;
+        const { title, sub_title, content, thumbnail, category, author, } = body;
 
-        if (!title || !category || !content || !publish_date) {
+        if (!title || !category || !content) {
             return NextResponse.json(
                 { success: false, error: 'Missing required fields' },
                 { status: 400 }
@@ -19,7 +19,7 @@ export const POST = async (request: NextRequest) => {
         const lastNew = await New.findOne().sort({ new_id: -1 }).limit(1);
         const newNewId = lastNew && lastNew.new_id ? lastNew.new_id + 1 : 1;
 
-        const newNew = await New.create({
+        await New.create({
             new_id: newNewId,
             title,
             sub_title,
@@ -27,12 +27,12 @@ export const POST = async (request: NextRequest) => {
             thumbnail,
             category,
             author,
-            publish_date,
+            publish_date: new Date(),
         });
 
         return NextResponse.json({
             success: true,
-            data: newNew,
+            new_id: newNewId,
             message: 'New created successfully'
         }, { status: 201 });
     } catch (error) {
