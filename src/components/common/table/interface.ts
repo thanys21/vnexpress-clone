@@ -16,6 +16,7 @@ export interface TableProps<T> {
     columns: Columns<T>[];
     data: T[];
     pagination: Pagination;
+    loading?: boolean;
     fixed?: {
         title: boolean;
         firstColumn: boolean;

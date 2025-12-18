@@ -1,11 +1,13 @@
 import React from "react";
 import Button from "@/components/form/components/button";
 import { TableProps } from "./interface";
+import Loading from "@/app/loading";
 
 const Table = <T,>({
   columns,
   data,
   pagination,
+  loading,
   // continue
   fixed,
 }: TableProps<T>): React.ReactElement => {
@@ -41,7 +43,7 @@ const Table = <T,>({
                   colSpan={columns.length}
                   className="px-6 py-4 text-center text-gray-500"
                 >
-                  No data
+                  {loading ? <Loading /> : "No data"}
                 </td>
               </tr>
             ) : (
@@ -65,28 +67,22 @@ const Table = <T,>({
       {/* Pagination */}
       {totalPages > 1 && (
         // Continue
-        <div className="flex items-center justify-between mt-4 px-4">
-          <div className="flex items-center space-x-2">
+        <div className="flex items-center justify-end mt-4 px-4">
+          <div className="flex gap-2">
             <Button
               onClick={() => handleChange(page - 1)}
               disabled={page === 1}
-              className={`px-3 py-1 border rounded ${
-                page === 1
-                  ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-              }`}
+              className={`px-3 py-1 border rounded`}
             >
               {"<"}
             </Button>
 
+            {/* renderPaginationButtons() */}
+
             <Button
               onClick={() => handleChange(page + 1)}
               disabled={page === totalPages}
-              className={`px-3 py-1 border rounded ${
-                page === totalPages
-                  ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-              }`}
+              className={`px-3 py-1 border rounded`}
             >
               {">"}
             </Button>
