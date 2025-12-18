@@ -5,13 +5,14 @@ import Table from "../common/table";
 import { New } from "./interface";
 import Button from "../form/components/button";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const NewLists = (): React.ReactElement => {
   const router = useRouter();
   const [data, setData] = useState<New[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
+  const [limit, setLimit] = useState(10);
   const [total, setTotal] = useState(0);
 
   const fetchNews = async (page: number, limit: number) => {
@@ -41,7 +42,13 @@ const NewLists = (): React.ReactElement => {
     {
       title: "ID",
       type: "number",
-      value: (item: New) => <div>{item.new_id}</div>,
+      value: (item: New) => (
+        <Link href={`/news/${item.new_id}`}>
+          <Button variant="primary" minimal>
+            {item.new_id}
+          </Button>
+        </Link>
+      ),
     },
     {
       title: "Title",
@@ -90,10 +97,13 @@ const NewLists = (): React.ReactElement => {
         data={data}
         loading={loading}
         pagination={{
-          total: 20,
+          total,
           limit,
           page,
-          handleChange: (newPage: number) => setPage(newPage),
+          handleChange: (newPage: number, newLimit: number) => {
+            setPage(newPage);
+            setLimit(newLimit);
+          },
         }}
       />
     </div>

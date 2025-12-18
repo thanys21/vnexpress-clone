@@ -9,7 +9,7 @@ export interface Pagination {
     total: number;
     limit: number;
     page: number;
-    handleChange: (page: number) => void;
+    handleChange: (page: number, limit: number) => void;
 }
 
 export interface TableProps<T> {
@@ -21,4 +21,5 @@ export interface TableProps<T> {
         title: boolean;
         firstColumn: boolean;
     };
+    limitOptions?: number[];
 }

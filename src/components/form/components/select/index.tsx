@@ -12,7 +12,6 @@ interface Props {
   options: SelectOption[];
   className?: string;
   disabled?: boolean;
-  placeholder?: string;
   value?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   onBlur?: () => void;
@@ -24,7 +23,6 @@ const Select = ({
   options,
   className,
   disabled = false,
-  placeholder = "Select an option",
   value,
   onChange,
   onBlur,
@@ -43,9 +41,6 @@ const Select = ({
       onBlur={onBlur}
       disabled={disabled}
     >
-      <option value="" disabled>
-        {placeholder}
-      </option>
       {options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}

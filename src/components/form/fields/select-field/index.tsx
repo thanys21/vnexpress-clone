@@ -8,7 +8,6 @@ interface Props {
   options: SelectOption[];
   error?: string;
   required?: boolean;
-  placeholder?: string;
   disabled?: boolean;
   value?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -21,7 +20,6 @@ const SelectField = ({
   options,
   error: tempError,
   required,
-  placeholder,
   disabled,
   value: tempValue,
   onChange: tempOnChange,
@@ -53,7 +51,6 @@ const SelectField = ({
       <Select
         name={name}
         options={options}
-        placeholder={placeholder}
         disabled={disabled}
         error={!!error}
         value={value}
