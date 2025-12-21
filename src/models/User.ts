@@ -16,10 +16,10 @@ const UserSchema = new Schema<IUser>({
     account: { type: String, required: true, unique: true },
     password: { type: String, required: false, select: false },
 }, {
-    _id: true,
     collection: 'users',
     timestamps: false,
     strict: false,
+    versionKey: false,
 });
 
 if (mongoose.models.User) {

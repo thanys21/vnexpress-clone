@@ -9,6 +9,7 @@ interface ButtonProps {
   disabled?: boolean;
   className?: string;
   onClick?: () => void;
+  minimal?: boolean;
 }
 
 const Button = ({
@@ -18,11 +19,24 @@ const Button = ({
   disabled = false,
   className,
   onClick,
+  minimal = false,
 }: ButtonProps): React.ReactElement => {
   const variantClasses = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white",
-    secondary: "bg-gray-600 hover:bg-gray-700 text-white",
-    danger: "bg-red-600 hover:bg-red-700 text-white",
+    primary: `${
+      minimal
+        ? "bg-white hover:bg-blue-100 text-blue-600"
+        : "bg-blue-600 hover:bg-blue-700 text-white"
+    }`,
+    secondary: `${
+      minimal
+        ? "bg-white hover:bg-gray-100 text-gray-600"
+        : "bg-gray-600 hover:bg-gray-700 text-white"
+    }`,
+    danger: `${
+      minimal
+        ? "bg-white hover:bg-red-100 text-red-600"
+        : "bg-red-600 hover:bg-red-700 text-white"
+    }`,
   };
 
   return (

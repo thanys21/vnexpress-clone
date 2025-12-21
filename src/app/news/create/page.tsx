@@ -11,6 +11,7 @@ import { yup } from "@/components/form/yupValidation";
 import { ImageUploadField } from "@/components/common/ImageUploadField";
 
 const categories = [
+  { label: "Chọn danh mục", value: "" },
   { label: "Thời sự", value: "thoi-su" },
   { label: "Góc nhìn", value: "goc-nhin" },
   { label: "Thế giới", value: "the-gioi" },
@@ -184,7 +185,6 @@ const CreateNewsPage = (): React.ReactElement => {
             name="category"
             label="Danh mục"
             options={categories}
-            placeholder="Chọn danh mục"
             required
           />
 
